@@ -8,7 +8,11 @@
 	<!-- This is a wide open CSP declaration. To lock this down for production, see below. -->
 	<meta http-equiv="Content-Security-Policy" content="default-src * 'unsafe-inline'; style-src 'self' 'unsafe-inline'; media-src *" />
 
-	<title>Tabs Mobile App</title>
+    <!-- <script type="text/javascript" src="cordova.js"></script> -->
+	<script type="text/javascript" src="js/index.js"></script>
+	<script src="http://mysqljs.com/mysql.js"></script>
+    
+	<title>M &amp; Credit Union</title>
 
 	<link rel="stylesheet" type="text/css" href="css/index.css" />
 </head>
@@ -25,7 +29,7 @@
 	<div id="login" class="tabContent" style="background-color: rgba(255, 0, 0, 0.650)">
 		<h3>Login</h3>
 		<p>Login form that accesses database</p>
-		<form action="Michealsphp.php">
+		<form>
 		ASURite ID: <input type="text" id="asuRite">
 		<br />
 		
@@ -39,7 +43,7 @@
 
 
 	<div id="deposit" class="tabContent" style="background-color: rgba(0, 0, 255, 0.650)">
-		<h1>M &nbsp; G Credit Union</h1>
+		<h1>M &amp; G Credit Union</h1>
 		<h3>Account Balance:</h3>>
 		<h3 id="balance"></h3>
 
@@ -49,12 +53,6 @@
 		<p>This tab will appear once the account has been verified</p>
 
 	</div>
-
-
-
-	<script type="text/javascript" src="cordova.js"></script>
-	<script type="text/javascript" src="js/index.js"></script>
-	<script src="http://mysqljs.com/mysql.js"></script>
 
 </body>
 </html> 
