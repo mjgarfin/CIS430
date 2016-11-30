@@ -51,4 +51,18 @@ ul.tab li a:focus, .active {
     display: 				none;
     padding: 				6px 12px;
     height:                 92vh;
-}		
+}	
+
+.center {
+    text-align:         center;
+}
+
+
+input[type=range] {
+    width:              40%;
+}
+
+span {
+    border-radius: 10px;
+    border: 2px solid white;
+}
