@@ -16,7 +16,7 @@ function onLoad() {
 }
 
 function onDeviceReady() {
-	showTab(event, login);
+	showTab(event, 'login');
 	document.getElementById("deposit").style.display = "none";
 	document.getElementById("accountDetail").style.display = "none";
 	document.getElementById("depositLink").style.display = "none";
@@ -58,8 +58,6 @@ function login() {
 			{
 				alert("Wrong username, try again");
 			}
-			
-			console.log(data)
 		}
 	);
 	
@@ -78,23 +76,10 @@ function login() {
 			{
 				alert("Wrong password, try again");
 			}
-			
-			console.log(data)
 		}
 	);
 	
-	MySql.Execute(
-		"dmazzola.com", 
-		"mgcreditunion", 
-		"mgcred8755", 
-		"test_db_mgcreditunion", 
-		"select Balance from Students where ASURite = "+username+" and Password = "+password+";", 
-		function (data) {
-			
-			
-			console.log(data)
-		}
-	);
+	setBalance();
 }
 	
 function setBalance() {
@@ -107,8 +92,6 @@ function setBalance() {
 		function (data) {
 			balance = data;
 			document.getElementById("balance").innerHTML = balance;
-			
-			console.log(data)
 		}
 	);
 }
