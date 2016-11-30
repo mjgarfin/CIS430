@@ -3,23 +3,93 @@
 // 
 //     <script type="text/javascript" src="js/index.js"></script>
 
-
 "use strict;" 
 
+var username;
+var givenUName;
+var unameCount
+var password;
+var givenPWord;
+var balance;
 
-document.addEventListener("deviceready", onDeviceReady, false);
+function onLoad() {
+	document.addEventListener("deviceready", onDeviceReady, false);
+}
 
 function onDeviceReady() {
-	showLoginTab();
+	showTab(event, login);
 	document.getElementById("deposit").style.display = "none";
 	document.getElementById("accountDetail").style.display = "none";
 	document.getElementById("depositLink").style.display = "none";
 	document.getElementById("accountDetailLink").style.display = "none";
+	
+	if (typeof shake !== 'undefined') {
+		// watch for device shaking, if we hit the unit threshold, call onShake
+		shakeNode.innerHTML = "or you can shake me!"
+		shake.startWatch(onShake, 10, onShakeError);
+	}
 }
 
-function showLoginTab() {
-	document.getElementById('login').click();
+var onShake = function() {
+	//alert("onShake event");
+	getData();
+	document.getElementById("balance").innerHTML = balance;
 }
+
+var onShakeError = function() {
+	alert("onShakeError occurred");
+}
+
+function login() {
+	
+	givenUName = document.getElementById("asuRite").value;
+	givenPWord = document.getElementById("password").value;
+	
+	MySql.Execute(
+		"dmazzola.com", 
+		"mgcreditunion", 
+		"mgcred8755", 
+		"test_db_mgcreditunion", 
+		unameCount = "select count(ASURite) from Students where ASURite = "+givenUName+";", 
+		function (data) {
+			if (unameCount = 1 && givenPWord = "select PWord from Students where ASURite = "+givenUNam +";")
+			{
+				username = givenUName;
+				password = givenPWord;
+				balance = "select Balance from Students where ASURite = "+username+";";
+				
+				document.getElementById("balance").innerHTML = balance;
+				alert("Successful login, continue to other tabs");
+			}
+			else
+			{
+				alert("Wrong login, try again");
+			}
+			
+			
+			console.log(data)
+		}
+	);
+	
+	username = 
+}
+	
+function getData() {
+	MySql.Execute(
+		"dmazzola.com", 
+		"mgcreditunion", 
+		"mgcred8755", 
+		"test_db_mgcreditunion", 
+		balance = "select Balance from Students where ASURite = "+ username +";", 
+		function (data) {
+			console.log(data)
+		}
+	);
+}
+
+/*function showLoginTab() {
+	document.getElementById('login').click();
+}*/
 
 function showTab(event, tabName) {
     // Declare all variables
