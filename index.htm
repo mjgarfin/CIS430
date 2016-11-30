@@ -1,11 +1,24 @@
-<HTML>
-  <HEAD>
-    <TITLE>
-      M &amp; G Credit Union
-    </TITLE>
-  </HEAD>
-  
-  <BODY>
-    <h1>M &amp; G Credit Union</h1>
-  </BODY>
-</HTML>
+<!DOCTYPE html>
+
+<!-- If you get Application Error: The connection to the server was
+     unsuccessful. (file:///android_asset/www/index.html) 
+     this will serve as a hack
+
+     It also speeds up loading for both Android and iOS for some reason
+
+     See: https://www.robertkehoe.com/2013/01/fix-for-phonegap-connection-to-server-was-unsuccessful/
+
+     MAKE ONLY ONE CHANGE - the <title></title> content below
+     JUST LEAVE THIS LIKE IT IS AND PUT YOUR PROJECT IN main.html
+-->
+
+<html>
+    <head>
+        <title>M&G Credit Union</title>
+        <script>
+            window.location='main.html';
+        </script>
+    </head>
+    <body>
+    </body>
+</html>
