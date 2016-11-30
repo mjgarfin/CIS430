@@ -1,17 +1,24 @@
-
+// put your javascript code here, make sure you reference this with a script 
+// at the just before the closing body tag:
+// 
 //     <script type="text/javascript" src="js/index.js"></script>
 
 
 "use strict;" 
 
+
 document.addEventListener("deviceready", onDeviceReady, false);
 
 function onDeviceReady() {
-	showHomeTab();
+	showLoginTab();
+	document.getElementById("deposit").style.display = "none";
+	document.getElementById("accountDetail").style.display = "none";
+	document.getElementById("depositLink").style.display = "none";
+	document.getElementById("accountDetailLink").style.display = "none";
 }
 
-function showHomeTab() {
-	document.getElementById('home').click();
+function showLoginTab() {
+	document.getElementById('login').click();
 }
 
 function showTab(event, tabName) {
