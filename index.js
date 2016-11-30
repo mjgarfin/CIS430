@@ -7,7 +7,6 @@
 
 var username;
 var givenUName;
-var unameCount
 var password;
 var givenPWord;
 var balance;
@@ -32,8 +31,7 @@ function onDeviceReady() {
 
 var onShake = function() {
 	//alert("onShake event");
-	getData();
-	document.getElementById("balance").innerHTML = balance;
+	setBalance();
 }
 
 var onShakeError = function() {
@@ -50,31 +48,56 @@ function login() {
 		"mgcreditunion", 
 		"mgcred8755", 
 		"test_db_mgcreditunion", 
-		unameCount = "select count(ASURite) from Students where ASURite = "+givenUName+";", 
+		"select count(ASURite) from Students where ASURite = "+givenUName+";", 
 		function (data) {
-			if (unameCount = 1 && givenPWord = "select PWord from Students where ASURite = "+givenUNam +";")
+			if (data > 1)
 			{
 				username = givenUName;
-				password = givenPWord;
-				balance = "select Balance from Students where ASURite = "+username+";";
-				
-				document.getElementById("balance").innerHTML = balance;
-				alert("Successful login, continue to other tabs");
 			}
 			else
 			{
-				alert("Wrong login, try again");
+				alert("Wrong username, try again");
 			}
-			
 			
 			console.log(data)
 		}
 	);
 	
-	username = 
+	MySql.Execute(
+		"dmazzola.com", 
+		"mgcreditunion", 
+		"mgcred8755", 
+		"test_db_mgcreditunion", 
+		"select PWord from Students where ASURite = "+username+";", 
+		function (data) {
+			if (data == givenPWORD)
+			{
+				password = givenPWord;
+			}
+			else
+			{
+				alert("Wrong password, try again");
+			}
+			
+			console.log(data)
+		}
+	);
+	
+	MySql.Execute(
+		"dmazzola.com", 
+		"mgcreditunion", 
+		"mgcred8755", 
+		"test_db_mgcreditunion", 
+		"select Balance from Students where ASURite = "+username+" and Password = "+password+";", 
+		function (data) {
+			
+			
+			console.log(data)
+		}
+	);
 }
 	
-function getData() {
+function setBalance() {
 	MySql.Execute(
 		"dmazzola.com", 
 		"mgcreditunion", 
@@ -82,6 +105,9 @@ function getData() {
 		"test_db_mgcreditunion", 
 		balance = "select Balance from Students where ASURite = "+ username +";", 
 		function (data) {
+			balance = data;
+			document.getElementById("balance").innerHTML = balance;
+			
 			console.log(data)
 		}
 	);
