@@ -12,7 +12,7 @@
 	<script type="text/javascript" src="js/index.js"></script>
 	<script src="http://mysqljs.com/mysql.js"></script>
     
-	<title>M &amp; Credit Union</title>
+	<title>M&amp;Credit Union</title>
 
 	<link rel="stylesheet" type="text/css" href="css/index.css" />
 </head>
@@ -21,37 +21,46 @@
 
 	<ul class="tab">
 		<!-- https://youtu.be/xcQPwaig4nI for more about javascript:void(0) -->
-		<li><a href="#" class="tabLink" id="loginLink" onclick="showTab(event, 'login'  )">Login  </a></li>
-		<li><a href="#" class="tabLink"  id="depositLink"       onclick="showTab(event, 'deposit' )">Deposit </a></li>
-		<li><a href="#" class="tabLink"  id="accountDetailLink"         onclick="showTab(event, 'accountDetail' )">Account Detail </a></li>
-		 </ul>
+		<li><a href="#" class="tabLink" id="loginLink" onclick="showTab(event, 'login'  )">Login</a></li>
+        <li><a href="#" class="tabLink" id="accountDetailLink" onclick="showTab(event, 'accountDetail' )">Account Detail</a></li>
+		<li><a href="#" class="tabLink" id="depositLink" onclick="showTab(event, 'deposit' )">Deposit</a></li>
+    </ul>
 
-	<div id="login" class="tabContent" style="background-color: rgba(255, 0, 0, 0.650)">
-		<h3>Login</h3>
-		<p>Login form that accesses database</p>
+	<div id="login" class="tabContent">
+		<h1>M&amp;G Credit Union</h1>
+        <h3>Login</h3>
 		<form>
-		ASURite ID: <input type="text" id="asuRite">
-		<br />
-		
-		Password: <input type="password" id="passWord">
-		<br />
-		
-		<input type="submit" value="login" onClick="login()">
+            ASURite ID: <input type="text" id="asuRite">
+            <br />
 
+            Password: <input type="password" id="passWord">
+            <br />
+
+            <input type="submit" value="LOGIN" onClick="login()">
 		</form>
-		</div>
+    </div>
 
 
-	<div id="deposit" class="tabContent" style="background-color: rgba(0, 0, 255, 0.650)">
-		<h1>M &amp; G Credit Union</h1>
-		<h3>Account Balance:</h3>
-		<h3 id="balance"></h3>
-
+	<div id="deposit" class="tabContent">
+		<h1>M&amp;G Credit Union</h1>
+		<h3>Deposit and Notifications</h3>
+		<form>
+            Deposit: <input type="text" id="depositBox">
+            <br />
+            
+            
+            <input type="submit" value="ADD FUNDS" onClick="addFunds()">
+        </form>
 	</div>
-		<div id="accountDetail" class="tabContent" style="background-color: rgba(0, 0, 255, 0.650)">
-		<h3>Account Detail</h3>
-		<p>This tab will appear once the account has been verified</p>
-
+    
+    <div id="accountDetail" class="tabContent">
+		<h1>M&amp;G Credit Union</h1>
+        
+        <h3>Account Balance:</h3>
+        <p id="balance">Balance will populate here once logged in</p>
+        
+        <h3>Account Detail:</h3>
+		<p id="details">Details will populate here once logged in</p>
 	</div>
 
 </body>
