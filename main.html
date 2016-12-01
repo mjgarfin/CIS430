@@ -17,7 +17,7 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css" />
 </head>
 
-<body>
+<body onload="showLoginTab()">
 
 	<ul class="tab">
 		<!-- https://youtu.be/xcQPwaig4nI for more about javascript:void(0) -->
@@ -33,7 +33,7 @@
 		ASURite ID: <input type="text" id="asuRite">
 		<br />
 		
-		Password: <input type="text" id="password">
+		Password: <input type="password" id="passWord">
 		<br />
 		
 		<input type="submit" value="login" onClick="login()">
@@ -44,7 +44,7 @@
 
 	<div id="deposit" class="tabContent" style="background-color: rgba(0, 0, 255, 0.650)">
 		<h1>M &amp; G Credit Union</h1>
-		<h3>Account Balance:</h3>>
+		<h3>Account Balance:</h3>
 		<h3 id="balance"></h3>
 
 	</div>
