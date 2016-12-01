@@ -7,7 +7,16 @@
 
 var userName;
 var passWord;
-var balanceReturned;
+var ammountToAdd;
+var onShake = function() {
+	//alert("onShake event");
+	setBalance();
+    setDetails;
+}
+
+var onShakeError = function() {
+	alert("onShakeError occurred");
+}
 
 function onLoad() {
 	document.addEventListener("deviceready", onDeviceReady, false);
@@ -21,18 +30,8 @@ function onDeviceReady() {
 	
 	if (typeof shake !== 'undefined') {
 		// watch for device shaking, if we hit the unit threshold, call onShake
-		shakeNode.innerHTML = "or you can shake me!"
 		shake.startWatch(onShake, 10, onShakeError);
 	}
-}
-
-var onShake = function() {
-	//alert("onShake event");
-	setBalance();
-}
-
-var onShakeError = function() {
-	alert("onShakeError occurred");
 }
 
 function login() {
@@ -41,8 +40,62 @@ function login() {
 	passWord = document.getElementById("passWord").value;
 	
 	setBalance();
+    setDetails();
     
-    document.getElementById('depositLink').click();
+    document.getElementById('accountDetailLink').click();
+}
+
+function addFunds() {
+    ammountToAdd = document.getElementById("depositBox").value;
+    
+    MySql.Execute(
+		"dmazzola.com", 
+		"mgcreditunion", 
+		"mgcred8755", 
+		"test_db_mgcreditunion", 
+		"update Students set Balance = Balance + "+ammountToAdd+" where ASURITE= '"+userName+"' and PWord = '"+passWord+"';", 
+		function (data) {
+		}
+	);
+    
+    setBalance();
+    setDetails();
+    
+    document.getElementById('accountDetailLink').click();
+}
+
+function processResult(returnedResult, id) {
+
+    var table, tableBody, tableHeader, tableRow;
+
+    body        = document.getElementById(id);
+    table  	  	= document.createElement("table");
+    tableBody 	= document.createElement("tbody");
+    tableHeader = document.createElement("tr");
+
+    for (var i=0; i<returnedResult.Result[0].length; i++) {
+        var cell 	 = document.createElement("th");
+        var cellText = document.createTextNode(returnedResult.Result[0].keys()[i]);
+        cell.appendChild(cellText);
+        tableHeader.appendChild(cell);
+    }
+    tableBody.appendChild(tableHeader);
+
+    for (var i=0; i<returnedResult.Result.length; i++) {
+        var tableRow = document.createElement("tr");
+
+        for (var j=0; j<Object.keys(returnedResult.Result[i]).length; j++) {
+            var cell 	 = document.createElement("td");
+            var cellText = document.createTextNode(Object.values(returnedResult.Result[i])[j]);
+            cell.appendChild(cellText);
+            tableRow.appendChild(cell);
+        }
+
+        tableBody.appendChild(tableRow);
+    }
+    table.appendChild(tableBody);
+    table.setAttribute("border", "2");
+    body.appendChild(table);
 }
 	
 function setBalance() {
@@ -53,44 +106,22 @@ function setBalance() {
 		"test_db_mgcreditunion", 
 		"select Balance from Students where ASURite = '"+userName+"' and PWord = '"+passWord+"';", 
 		function (data) {
-                balanceReturned = JSON.stringify(data.Result, null, 2);
-                document.getElementById("balance").innerHTML = balanceReturned;
-            
-                var table, tableBody, tableHeader, tableRow;
-    			var rows = data.length;
-
-    			body        = document.getElementsByTagName("body")[0];
-    			table  	  	= document.createElement("table");
-    			tableBody 	= document.createElement("tbody");
-    			tableHeader = document.createElement("tr");
-
-    			for (var i=0; i<data.Result[0].length; i++) {
-    				var cell 	 = document.createElement("th");
-    				var cellText = document.createTextNode(data.Result[0].keys()[i]);
-    				cell.appendChild(cellText);
-    				tableHeader.appendChild(cell);
-    			}
-    			tableBody.appendChild(tableHeader);
-
-    			for (var i=0; i<data.Result.length; i++) {
-    				var tableRow = document.createElement("tr");
-
-    				for (var j=0; j<Object.keys(data.Result[i]).length; j++) {
-	    				var cell 	 = document.createElement("td");
-	    				var cellText = document.createTextNode(Object.values(data.Result[i])[j]);
-	    				cell.appendChild(cellText);
-	    				tableRow.appendChild(cell);
-    				}
-
-	    			tableBody.appendChild(tableRow);
-    			}
-    			table.appendChild(tableBody);
-    			table.setAttribute("border", "2");
-    			body.appendChild(table);
-            
-                console.log(data);
+                processResult(data, "balance");
 		}
 	);
+}
+
+function setDetails() {
+    MySql.Execute(
+		"dmazzola.com", 
+		"mgcreditunion", 
+		"mgcred8755", 
+		"test_db_mgcreditunion", 
+		"select Store, Cost from Transactions where ASURite = '"+userName+"';", 
+		function (data) {
+                processResult(data, "details");
+		}
+	); 
 }
 
 function showLoginTab() {
