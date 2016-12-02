@@ -46,14 +46,14 @@ function login() {
 }
 
 function addFunds() {
-    ammountToAdd = document.getElementById("depositBox").value;
+    ammountToAdd = parseFloat(document.getElementById("depositBox").value);
     
     MySql.Execute(
 		"dmazzola.com", 
 		"mgcreditunion", 
 		"mgcred8755", 
 		"test_db_mgcreditunion", 
-		"update Students set Balance = Balance + "+ammountToAdd+" where ASURITE= '"+userName+"' and PWord = '"+passWord+"';", 
+		"update Students set Balance = Balance + "+ammountToAdd+" where ASURite = '"+userName+"' and PWord = '"+passWord+"';", 
 		function (data) {
 		}
 	);
@@ -64,18 +64,18 @@ function addFunds() {
     document.getElementById('accountDetailLink').click();
 }
 
-function processResult(returnedResult, id) {
+/*function processResult(returnedResult, divId) {
 
-    var table, tableBody, tableHeader, tableRow;
+    var body, table, tableBody, tableHeader, tableRow;
 
-    body        = document.getElementById(id);
+    body        = document.getElementById(divId);
     table  	  	= document.createElement("table");
     tableBody 	= document.createElement("tbody");
     tableHeader = document.createElement("tr");
 
-    for (var i=0; i<returnedResult.Result[0].length; i++) {
+    for (var i=0; i<Object.keys(returnedResult.Result[0]).length; i++) {
         var cell 	 = document.createElement("th");
-        var cellText = document.createTextNode(returnedResult.Result[0].keys()[i]);
+        var cellText = document.createTextNode(Object.keys(returnedResult.Result[0])[i]);
         cell.appendChild(cellText);
         tableHeader.appendChild(cell);
     }
@@ -96,7 +96,7 @@ function processResult(returnedResult, id) {
     table.appendChild(tableBody);
     table.setAttribute("border", "2");
     body.appendChild(table);
-}
+}*/
 	
 function setBalance() {
 	MySql.Execute(
@@ -106,7 +106,38 @@ function setBalance() {
 		"test_db_mgcreditunion", 
 		"select Balance from Students where ASURite = '"+userName+"' and PWord = '"+passWord+"';", 
 		function (data) {
-                processResult(data, "balance");
+                //document.getElementById("balanceDiv").innerHTML = "";
+            
+                var body, table, tableBody, tableHeader, tableRow;
+
+                body        = document.getElementById("balanceDiv");
+                table  	  	= document.createElement("table");
+                tableBody 	= document.createElement("tbody");
+                tableHeader = document.createElement("tr");
+
+                for (var i=0; i<Object.keys(data.Result[0]).length; i++) {
+                    var cell 	 = document.createElement("th");
+                    var cellText = document.createTextNode(Object.keys(data.Result[0])[i]);
+                    cell.appendChild(cellText);
+                    tableHeader.appendChild(cell);
+                }
+                tableBody.appendChild(tableHeader);
+
+                for (var i=0; i<data.Result.length; i++) {
+                    var tableRow = document.createElement("tr");
+
+                    for (var j=0; j<Object.keys(data.Result[i]).length; j++) {
+                        var cell 	 = document.createElement("td");
+                        var cellText = document.createTextNode(Object.values(data.Result[i])[j]);
+                        cell.appendChild(cellText);
+                        tableRow.appendChild(cell);
+                    }
+
+                    tableBody.appendChild(tableRow);
+                }
+                table.appendChild(tableBody);
+                table.setAttribute("border", "2");
+                body.appendChild(table);
 		}
 	);
 }
@@ -119,7 +150,38 @@ function setDetails() {
 		"test_db_mgcreditunion", 
 		"select Store, Cost from Transactions where ASURite = '"+userName+"';", 
 		function (data) {
-                processResult(data, "details");
+                //document.getElementById("detailsDiv").innerHTML = "";
+            
+                var body, table, tableBody, tableHeader, tableRow;
+
+                body        = document.getElementById("detailsDiv");
+                table  	  	= document.createElement("table");
+                tableBody 	= document.createElement("tbody");
+                tableHeader = document.createElement("tr");
+
+                for (var i=0; i<Object.keys(data.Result[0]).length; i++) {
+                    var cell 	 = document.createElement("th");
+                    var cellText = document.createTextNode(Object.keys(data.Result[0])[i]);
+                    cell.appendChild(cellText);
+                    tableHeader.appendChild(cell);
+                }
+                tableBody.appendChild(tableHeader);
+
+                for (var i=0; i<data.Result.length; i++) {
+                    var tableRow = document.createElement("tr");
+
+                    for (var j=0; j<Object.keys(data.Result[i]).length; j++) {
+                        var cell 	 = document.createElement("td");
+                        var cellText = document.createTextNode(Object.values(data.Result[i])[j]);
+                        cell.appendChild(cellText);
+                        tableRow.appendChild(cell);
+                    }
+
+                    tableBody.appendChild(tableRow);
+                }
+                table.appendChild(tableBody);
+                table.setAttribute("border", "2");
+                body.appendChild(table);
 		}
 	); 
 }
@@ -148,11 +210,4 @@ function showTab(event, tabName) {
     // Show the current tab, and add an "active" class to the link
     document.getElementById(tabName).style.display = "block";
     event.currentTarget.className += " active";
-}
-
-function objArray2Table(objArray) {
-	console.log(Object.keys(objArray[0]));
-	for (i = 0; i<objArray.length; i++) {
-		console.log(Object.values(objArray[i]));
-	}
 }
