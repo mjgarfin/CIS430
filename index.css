@@ -31,7 +31,7 @@ table.tab td {
 	float: 					left;
 	margin: 0;
 	text-align: center;
-	width: 33%;
+	width: 50%;
 	height: 100%;
 }
 
@@ -83,4 +83,37 @@ input[type=range] {
 span {
     border-radius: 10px;
     border: 2px solid white;
+}
+
+.logo {
+	width: 200px;
+	height: 200px;
+	text-align: left;
+	bottom: 0;
+	position: absolute;
+	padding-bottom: 0;
+	left: 0px;
+}
+
+#copyright{
+	text-align: left;
+	bottom: 0;
+	position: absolute;
+	padding-bottom: 50px;
+	left: 35px;
+	font-size: 12px;
+	
+}
+
+
+#regform{
+	width: 40%;
+	color: white;
+	margin: auto;
+	font-size: 150%;
+	text-align: left;
+	padding-left: 30px;
+	line-height: 1.6em;
+	border: 1px solid gold;
+	background-color: black;
 }
