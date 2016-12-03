@@ -7,11 +7,13 @@
 
 var userName;
 var passWord;
-var ammountToAdd;
+var amountToAdd;
 var onShake = function() {
-	//alert("onShake event");
-	setBalance();
-    setDetails;
+	document.getElementById("detailsDiv").innerHTML = ""; 
+    
+    setDetails();
+    
+    document.getElementById('accountDetailLink').click();
 }
 
 var onShakeError = function() {
@@ -20,14 +22,13 @@ var onShakeError = function() {
 
 function onLoad() {
 	document.addEventListener("deviceready", onDeviceReady, false);
+    showLoginTab();
 }
 
 function onDeviceReady() {
-	document.getElementById("deposit").style.display = "none";
 	document.getElementById("accountDetail").style.display = "none";
-	document.getElementById("depositLink").style.display = "none";
 	document.getElementById("accountDetailLink").style.display = "none";
-	
+    
 	if (typeof shake !== 'undefined') {
 		// watch for device shaking, if we hit the unit threshold, call onShake
 		shake.startWatch(onShake, 10, onShakeError);
@@ -39,54 +40,36 @@ function login() {
 	userName = document.getElementById("asuRite").value;
 	passWord = document.getElementById("passWord").value;
 	
-	setBalance();
+    document.getElementById("detailsDiv").innerHTML = ""; 
     setDetails();
     
     document.getElementById('accountDetailLink').click();
 }
 
-function addFunds() {
-    ammountToAdd = parseFloat(document.getElementById("depositBox").value);
-    
-    MySql.Execute(
-		"dmazzola.com", 
-		"mgcreditunion", 
-		"mgcred8755", 
-		"test_db_mgcreditunion", 
-		"update Students set Balance = Balance + "+ammountToAdd+" where ASURite = '"+userName+"' and PWord = '"+passWord+"';", 
-		function (data) {
-		}
-	);
-    
-    setBalance();
-    setDetails();
-    
-    document.getElementById('accountDetailLink').click();
-}
 
-/*function processResult(returnedResult, divId) {
-
+function processResult(data) {
+    
     var body, table, tableBody, tableHeader, tableRow;
 
-    body        = document.getElementById(divId);
+    body        = document.getElementById("detailsDiv");
     table  	  	= document.createElement("table");
     tableBody 	= document.createElement("tbody");
     tableHeader = document.createElement("tr");
 
-    for (var i=0; i<Object.keys(returnedResult.Result[0]).length; i++) {
+    for (var i=0; i<Object.keys(data.Result[0]).length; i++) {
         var cell 	 = document.createElement("th");
-        var cellText = document.createTextNode(Object.keys(returnedResult.Result[0])[i]);
+        var cellText = document.createTextNode(Object.keys(data.Result[0])[i]);
         cell.appendChild(cellText);
         tableHeader.appendChild(cell);
     }
     tableBody.appendChild(tableHeader);
 
-    for (var i=0; i<returnedResult.Result.length; i++) {
+    for (var i=0; i<data.Result.length; i++) {
         var tableRow = document.createElement("tr");
 
-        for (var j=0; j<Object.keys(returnedResult.Result[i]).length; j++) {
+        for (var j=0; j<Object.keys(data.Result[i]).length; j++) {
             var cell 	 = document.createElement("td");
-            var cellText = document.createTextNode(Object.values(returnedResult.Result[i])[j]);
+            var cellText = document.createTextNode(Object.values(data.Result[i])[j]);
             cell.appendChild(cellText);
             tableRow.appendChild(cell);
         }
@@ -96,50 +79,6 @@ function addFunds() {
     table.appendChild(tableBody);
     table.setAttribute("border", "2");
     body.appendChild(table);
-}*/
-	
-function setBalance() {
-	MySql.Execute(
-		"dmazzola.com", 
-		"mgcreditunion", 
-		"mgcred8755", 
-		"test_db_mgcreditunion", 
-		"select Balance from Students where ASURite = '"+userName+"' and PWord = '"+passWord+"';", 
-		function (data) {
-                //document.getElementById("balanceDiv").innerHTML = "";
-            
-                var body, table, tableBody, tableHeader, tableRow;
-
-                body        = document.getElementById("balanceDiv");
-                table  	  	= document.createElement("table");
-                tableBody 	= document.createElement("tbody");
-                tableHeader = document.createElement("tr");
-
-                for (var i=0; i<Object.keys(data.Result[0]).length; i++) {
-                    var cell 	 = document.createElement("th");
-                    var cellText = document.createTextNode(Object.keys(data.Result[0])[i]);
-                    cell.appendChild(cellText);
-                    tableHeader.appendChild(cell);
-                }
-                tableBody.appendChild(tableHeader);
-
-                for (var i=0; i<data.Result.length; i++) {
-                    var tableRow = document.createElement("tr");
-
-                    for (var j=0; j<Object.keys(data.Result[i]).length; j++) {
-                        var cell 	 = document.createElement("td");
-                        var cellText = document.createTextNode(Object.values(data.Result[i])[j]);
-                        cell.appendChild(cellText);
-                        tableRow.appendChild(cell);
-                    }
-
-                    tableBody.appendChild(tableRow);
-                }
-                table.appendChild(tableBody);
-                table.setAttribute("border", "2");
-                body.appendChild(table);
-		}
-	);
 }
 
 function setDetails() {
@@ -148,40 +87,9 @@ function setDetails() {
 		"mgcreditunion", 
 		"mgcred8755", 
 		"test_db_mgcreditunion", 
-		"select Store, Cost from Transactions where ASURite = '"+userName+"';", 
+		"SELECT S.Balance, T.Store, T.Cost FROM Students S INNER JOIN Transactions T ON S.ASURite = T.ASURite AND S.ASURite = '"+userName+"' AND S.pword = '"+passWord+"';", 
 		function (data) {
-                //document.getElementById("detailsDiv").innerHTML = "";
-            
-                var body, table, tableBody, tableHeader, tableRow;
-
-                body        = document.getElementById("detailsDiv");
-                table  	  	= document.createElement("table");
-                tableBody 	= document.createElement("tbody");
-                tableHeader = document.createElement("tr");
-
-                for (var i=0; i<Object.keys(data.Result[0]).length; i++) {
-                    var cell 	 = document.createElement("th");
-                    var cellText = document.createTextNode(Object.keys(data.Result[0])[i]);
-                    cell.appendChild(cellText);
-                    tableHeader.appendChild(cell);
-                }
-                tableBody.appendChild(tableHeader);
-
-                for (var i=0; i<data.Result.length; i++) {
-                    var tableRow = document.createElement("tr");
-
-                    for (var j=0; j<Object.keys(data.Result[i]).length; j++) {
-                        var cell 	 = document.createElement("td");
-                        var cellText = document.createTextNode(Object.values(data.Result[i])[j]);
-                        cell.appendChild(cellText);
-                        tableRow.appendChild(cell);
-                    }
-
-                    tableBody.appendChild(tableRow);
-                }
-                table.appendChild(tableBody);
-                table.setAttribute("border", "2");
-                body.appendChild(table);
+                processResult(data);
 		}
 	); 
 }
