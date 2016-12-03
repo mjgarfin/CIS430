@@ -17,14 +17,16 @@
 	<link rel="stylesheet" type="text/css" href="css/index.css" />
 </head>
 
-<body onload="showLoginTab()">
+<body onload="onLoad()">
 
-	<ul class="tab">
-		<!-- https://youtu.be/xcQPwaig4nI for more about javascript:void(0) -->
-		<li><a href="#" class="tabLink" id="loginLink" onclick="showTab(event, 'login'  )">Login</a></li>
-        <li><a href="#" class="tabLink" id="accountDetailLink" onclick="showTab(event, 'accountDetail' )">Account Detail</a></li>
-		<li><a href="#" class="tabLink" id="depositLink" onclick="showTab(event, 'deposit' )">Deposit</a></li>
-    </ul>
+	<table class="tab">
+		<tr>
+			<!-- https://youtu.be/xcQPwaig4nI for more about javascript:void(0) -->
+			<td><a href="#" class="tabLink" id="loginLink" onclick="showTab(event, 'login'  )">Login</a></td>
+			<td><a href="#" class="tabLink" id="accountDetailLink" onclick="showTab(event, 'accountDetail' )">Account Detail</a></td>
+			<td><a href="#" class="tabLink" id="depositLink" onclick="showTab(event, 'deposit' )">Deposit</a></td>
+		</tr>
+	</table>
 
 	<div id="login" class="tabContent">
 		<h1>M&amp;G Credit Union</h1>
@@ -36,12 +38,19 @@
             Password: <input type="password" id="passWord">
             <br />
 
-            <input type="submit" value="LOGIN" onClick="login()">
+            <input type="submit" value="LOGIN" onclick="login()">
 		</form>
     </div>
-
-
-	<div id="deposit" class="tabContent">
+    
+    <div id="accountDetail" class="tabContent">
+		<h1>M&amp;G Credit Union</h1>
+        
+        <h3>Account Balance and Details:</h3>
+        <div id="balanceDiv"></div>
+        
+	</div>
+    
+    <div id="deposit" class="tabContent">
 		<h1>M&amp;G Credit Union</h1>
 		<h3>Deposit and Notifications</h3>
 		<form>
@@ -49,22 +58,8 @@
             <br />
             
             
-            <input type="submit" value="ADD FUNDS" onClick="addFunds()">
+            <input type="submit" value="ADD FUNDS">
         </form>
-	</div>
-    
-    <div id="accountDetail" class="tabContent">
-		<h1>M&amp;G Credit Union</h1>
-        
-        <h3>Account Balance:</h3>
-        <div id="balanceDiv">
-            Balance will appear here.
-        </div>
-        
-        <h3>Account Detail:</h3>
-		<div id="detailsDiv">
-            Account transaction summary will appear here.
-        </div>
 	</div>
 
 </body>
