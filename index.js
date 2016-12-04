@@ -7,13 +7,10 @@
 
 var userName;
 var passWord;
-var amountToAdd;
-var onShake = function() {
-	document.getElementById("detailsDiv").innerHTML = ""; 
-    
-    setDetails();
-    
-    document.getElementById('accountDetailLink').click();
+var tbl;
+var obj;
+var onShake = function () {
+    refresh();
 }
 
 var onShakeError = function() {
@@ -22,12 +19,10 @@ var onShakeError = function() {
 
 function onLoad() {
 	document.addEventListener("deviceready", onDeviceReady, false);
-    showLoginTab();
 }
 
 function onDeviceReady() {
-	document.getElementById("accountDetail").style.display = "none";
-	document.getElementById("accountDetailLink").style.display = "none";
+	showLoginTab();
     
 	if (typeof shake !== 'undefined') {
 		// watch for device shaking, if we hit the unit threshold, call onShake
@@ -40,45 +35,17 @@ function login() {
 	userName = document.getElementById("asuRite").value;
 	passWord = document.getElementById("passWord").value;
 	
-    document.getElementById("detailsDiv").innerHTML = ""; 
-    setDetails();
-    
-    document.getElementById('accountDetailLink').click();
+    refresh();
 }
 
-
-function processResult(data) {
+function refresh() {
+document.getElementById("detailsDiv").innerHTML = " "; 
+setDetails();
     
-    var body, table, tableBody, tableHeader, tableRow;
+tbl = prettyPrint(obj.Result);
+document.getElementById("detailsDiv").appendChild(tbl);
 
-    body        = document.getElementById("detailsDiv");
-    table  	  	= document.createElement("table");
-    tableBody 	= document.createElement("tbody");
-    tableHeader = document.createElement("tr");
-
-    for (var i=0; i<Object.keys(data.Result[0]).length; i++) {
-        var cell 	 = document.createElement("th");
-        var cellText = document.createTextNode(Object.keys(data.Result[0])[i]);
-        cell.appendChild(cellText);
-        tableHeader.appendChild(cell);
-    }
-    tableBody.appendChild(tableHeader);
-
-    for (var i=0; i<data.Result.length; i++) {
-        var tableRow = document.createElement("tr");
-
-        for (var j=0; j<Object.keys(data.Result[i]).length; j++) {
-            var cell 	 = document.createElement("td");
-            var cellText = document.createTextNode(Object.values(data.Result[i])[j]);
-            cell.appendChild(cellText);
-            tableRow.appendChild(cell);
-        }
-
-        tableBody.appendChild(tableRow);
-    }
-    table.appendChild(tableBody);
-    table.setAttribute("border", "2");
-    body.appendChild(table);
+document.getElementById('accountDetailLink').click();
 }
 
 function setDetails() {
@@ -89,7 +56,7 @@ function setDetails() {
 		"test_db_mgcreditunion", 
 		"SELECT S.Balance, T.Store, T.Cost FROM Students S INNER JOIN Transactions T ON S.ASURite = T.ASURite AND S.ASURite = '"+userName+"' AND S.pword = '"+passWord+"';", 
 		function (data) {
-                processResult(data);
+            obj = data;
 		}
 	); 
 }
